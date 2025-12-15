@@ -1,16 +1,32 @@
 import subprocess
 
 def git_push():
-    subprocess.run(["python3", "convert.py"], check=True)
-    subprocess.run(["git", "add", "-A"], check=True)
-    subprocess.run(
-        ["git", "commit", "-m", "Auto update pothole map"],
-        check=False
-    )
-    subprocess.run(["git", "push", "origin", "main"], check=True)
-    subprocess.run(["git", "diff", "--quiet"], check=False)
-    if subprocess.call(["git", "diff", "--quiet"]) == 0:
-       print("No changes to push")
-       return
+    try:
+        subprocess.run(
+            ["python3", "convert.py"],
+            check=True,
+            stdin=subprocess.DEVNULL
+        )
 
+        subprocess.run(
+            ["git", "add", "."],
+            check=True,
+            stdin=subprocess.DEVNULL
+        )
 
+        subprocess.run(
+            ["git", "commit", "-m", "Auto update pothole map"],
+            check=False,
+            stdin=subprocess.DEVNULL
+        )
+
+        subprocess.run(
+            ["git", "push", "origin", "main"],
+            check=False,
+            stdin=subprocess.DEVNULL
+        )
+
+        print("Git push done")
+
+    except Exception as e:
+        print("Git push error:", e)
