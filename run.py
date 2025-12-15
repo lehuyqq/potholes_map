@@ -6,6 +6,7 @@ import tensorrt as trt
 import time
 import json
 import uuid
+import threading
 from auto_push import git_push
 from datetime import datetime
 
@@ -14,6 +15,11 @@ with open("gps_simu.json", "r") as f:
     GPS_POINTS = json.load(f)
 
 gps_index = 0
+
+def git_push_async():
+    t = threading.Thread(target=git_push, daemon=True)
+    t.start()
+
 
 def get_gps_mock():
     global gps_index
@@ -203,7 +209,7 @@ while True:
             save_pothole(frame, lat, lon, conf)
             last_save_time = now
         if now - last_push_time > PUSH_INTERVAL:
-            git_push()
+            git_push_async()
             last_push_time = now    
         # draw
         draw_frame = frame.copy()
