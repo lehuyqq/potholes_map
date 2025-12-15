@@ -234,7 +234,7 @@ while True:
         continue
     
     key = cv2.waitKey(1) & 0xFF
-    if key == ord('q'):
+    if key == ord('q') or key == 27:
         print("Nhan Q de thoat")
         break
 cap.release()
