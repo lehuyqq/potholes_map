@@ -228,13 +228,15 @@ while True:
                     cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),2)
 
         cv2.imshow("YOLOv5 TensorRT Pothole", draw_frame)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
 
     except Exception as e:
         print("Warning: Exception during frame processing:", e)
         continue
-
+    
+    key = cv2.waitKey(1) & 0xFF
+    if key == ord('q'):
+        print("Nhan Q de thoat")
+        break
 cap.release()
 cv2.destroyAllWindows()
 
